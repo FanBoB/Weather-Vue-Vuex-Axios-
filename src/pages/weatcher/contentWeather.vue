@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-row :gutter="20" class="mt90">
-        <el-col :span="6" :offset="1">
+        <el-col :span="12" :offset="1">
           <h2 class="celsius">{{ isSk('temp') }}℃<span class="weather">{{ isToday('weather') }}</span></h2>
         </el-col>
       </el-row>
@@ -26,23 +26,21 @@
       </el-row>
 
       <el-row :gutter="40" type="flex" justify="space-around">
-          <el-col v-for="(item,index) in week" :span="3">
+          <el-col v-for="(item,index) in future" :key="item.date" :span="3">
             <ul class="future">
               <li>{{  item.week  }}</li>
               <li>{{ item.date }}</li>
               <li>{{  item.weather  }}</li>
 
-              <li v-if="item.weather =='晴' ||item.weather == '小雨转晴' "><span></span></li>
-              <li v-else-if="item.weather == '多云' || item.weather == '阴' || item.weather =='雨夹雪转多云' || item.weather =='阵雨转阴'"><span :style="{backgroundPosition:'10px -70px'}"></span></li>
-              <li v-else-if="item.weather == '多云转阴' || item.weather == '晴转多云' || item.weather == '多云转晴' || item.weather == '晴转阴' || item.weather == '阴转多云' || item.weather == '阴转晴' "><span :style="{backgroundPosition:'-273px -5px'}"></span></li>
-              <li v-else-if="item.weather == '阵雨转多云' || item.weather == '小雨转多云'"><span :style="{backgroundPosition:'-862px -78px'}"></span></li>
-              <li v-else-if="item.weather == '小雨转雨夹雪' || item.weather == '多云转雨夹雪' || item.weather == '雨夹雪'"><span :style="{backgroundPosition:'-714px -154px'}"></span></li>
-              <li v-else-if="item.weather == '多云转小雨' || item.weather =='小雨' || item.weather == '晴转小雨'"><span :style="{backgroundPosition:'-279px -76px'}"></span></li>
-              <li v-else-if="item.weather == '多云转阵雪'"><span :style="{backgroundPosition:'-573px -154px'}"></span></li>
-              <li v-else-if="item.weather == '多云转小雪' || item.weather == '大雪转小雪' || item.weather == '小雪'"><span :style="{backgroundPosition:'11px -154px'}"></span></li>
-              <li v-else-if="item.weather == '小雪转中雪' || item.weather == '多云转中雪' || item.weather == '大雪转中雪' || item.weather == '阴转中雪'"><span :style="{backgroundPosition:'-425px -154px'}"></span></li>
-              <li v-else-if="item.weather == '大雪' || item.weather == '中雪转暴雪'"><span :style="{backgroundPosition:'-571px -154px'}"></span></li>
-              <li v-else-if="item.weather == '阵雨' || item.weather == '多云转阵雨' || item.weather == '中雨转阵雨'"><span :style="{backgroundPosition:'-864px -82px'}"></span></li>
+              <li v-if="item.weather.endsWith('晴')"><span></span></li>
+              <li v-else-if="item.weather.endsWith('多云') || item.weather.endsWith('阴')"><span :style="{backgroundPosition:'-273px -5px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('雨夹雪')"><span :style="{backgroundPosition:'-714px -154px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('小雨') "><span :style="{backgroundPosition:'-279px -76px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('阵雪')"><span :style="{backgroundPosition:'-573px -154px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('小雪')"><span :style="{backgroundPosition:'11px -154px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('中雪')"><span :style="{backgroundPosition:'-425px -154px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('暴雪')"><span :style="{backgroundPosition:'-571px -154px'}"></span></li>
+              <li v-else-if="item.weather.endsWith('阵雨')"><span :style="{backgroundPosition:'-864px -82px'}"></span></li>
 
               <li>{{ item.temperature }}</li>
               <li>{{ item.wind }}</li>
@@ -62,7 +60,7 @@
           return {
             sk:'',
             today:'',
-            week:''
+            future:''
           }
       },
       methods:{
@@ -71,7 +69,7 @@
             if(res.error_code == 0 ){
               this.sk = res.result.sk;   //实时天气
               this.today = res.result.today;  //今天天气
-              this.week = res.result.future;  //一周天气
+              this.future = res.result.future;  //一周天气
             }else{
               this.$message.error(res.result)
             }
@@ -168,7 +166,7 @@
   }
 
   .future{
-    font-size: 12px;
+    font-size: 0.9em;
     background: #64b1f9;
     border-radius:10px;
     text-align:center;
@@ -176,7 +174,7 @@
     box-shadow:3px 3px 20px 0px rgba(100, 177, 248, 0.8);
     li {
       color: #fff;
-      padding: 10px 0;
+      padding: 10% 0;
       span{
         display: inline-block;
         width:100px;

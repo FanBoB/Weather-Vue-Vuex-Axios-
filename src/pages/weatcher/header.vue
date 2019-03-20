@@ -4,7 +4,7 @@
 	      <h3 class="color-fff"><i>{{title}}</i></h3>
 	  </el-col>
 		
-		<el-col :offset="10" :span="6">
+		<el-col :offset="10" :span="6" class="textRight">
 			<Weather></Weather>
 		</el-col>
 	</el-row>
@@ -35,4 +35,7 @@
 	.header-logo {
 		font-size: 26px;
 	}
+  .textRight{
+    text-align: right;
+  }
 </style>

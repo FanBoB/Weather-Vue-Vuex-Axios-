@@ -13,7 +13,8 @@ import ComponentBase from './components/index'
 
 Vue.config.productionTip = false
 //重写路径 若生产环境 择请求其他网站接口 若开发环境 择请求开发测试接口 /api 择是跨域请求在 config/index.js =>proxyTable
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://v.juhe.cn/' : '/api';
+// axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'http://v.juhe.cn/' : '/api';
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? '/api' : '/api'
 
 Vue.use(ElementUI)
 Vue.use(ComponentBase)
